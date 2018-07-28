@@ -1,3 +1,6 @@
 every_pokemon_sprite/*
 discriminator
 generator
+generated_images/*
+trainedmodels/*
+.DS_Store
