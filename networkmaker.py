@@ -25,7 +25,6 @@ print("generator saved.")
 inputLayer = Input(shape=(96,96,4))
 
 discriminator = Flatten()(inputLayer)
-discriminator = Dense(256,activation="relu")(discriminator)
 discriminator = Dense(128,activation="relu")(discriminator)
 discriminator = Dense(64, activation="relu")(discriminator)
 discriminator = Dense(1, activation='sigmoid')(discriminator)

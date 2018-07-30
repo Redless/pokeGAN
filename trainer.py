@@ -40,7 +40,7 @@ def train_generator(batchsize):
 
 def test_generator(epoch):
     noise = np.random.normal(0, 1, size=[5, 100])
-    results = generator.predict(noise)*255
+    results = (generator.predict(noise)*255).astype(int)
     for i in range(5):
         imwrite('generated_images/'+str(epoch)+"epoch"+str(i)+".png",results[i])
 
@@ -52,9 +52,8 @@ def save_gnd(epoch):
 
 for epoch in range(5):
     print("-"*10+"[ E P O C H "+str(epoch)+"]"+"-"*10)
-    print(train_discriminator(150))
+    print(train_discriminator(10))
     for i in range(100):
         train_generator(150)
-        print("another batch/100 complete")
     save_gnd(epoch)
     test_generator(epoch)
