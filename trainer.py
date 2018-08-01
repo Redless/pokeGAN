@@ -7,18 +7,19 @@ from keras.layers import Input
 from keras import Model
 
 spritelist = listdir("every_pokemon_sprite/sprites")
+noiseDim = 640
 
 discriminator = load_model("discriminator")
 discriminator.trainable=False
 generator = load_model("generator")
-inlayer = Input((100,))
+inlayer = Input((noiseDim,))
 full_gan = discriminator(generator(inlayer))
 full_gan = Model(inlayer,full_gan)
 full_gan.compile(loss='binary_crossentropy', optimizer="adam")
 
 def train_discriminator(batchsize):
     discriminator.trainable = True
-    noise = np.random.normal(0, 1, size=[batchsize, 100])
+    noise = np.random.normal(0, 1, size=[batchsize, noiseDim])
     
     inarr = np.empty((batchsize*2,96,96,4))
     for i in range(batchsize):
@@ -35,14 +36,13 @@ def train_discriminator(batchsize):
 
 def train_generator(batchsize):
     discriminator.trainable = False
-    noise = np.random.normal(0, 1, size=[batchsize, 100])
+    noise = np.random.normal(0, 1, size=[batchsize, noiseDim])
     full_gan.train_on_batch(noise,np.ones(batchsize))
 
 def test_generator(epoch):
-    noise = np.random.normal(0, 1, size=[5, 100])
-    results = (generator.predict(noise)*255).astype(int)
-    for i in range(5):
-        imwrite('generated_images/'+str(epoch)+"epoch"+str(i)+".png",results[i])
+    noise = np.random.normal(0, 1, size=[1,noiseDim])
+    results = (generator.predict(noise)*255).astype("uint8")
+    imwrite('generated_images/'+str(epoch)+"epoch.png",results[0,:])
 
 def save_gnd(epoch):
     discriminator.save("trainedmodels/discrim"+str(epoch))
@@ -52,8 +52,8 @@ def save_gnd(epoch):
 
 for epoch in range(5):
     print("-"*10+"[ E P O C H "+str(epoch)+"]"+"-"*10)
-    print(train_discriminator(10))
+    print(train_discriminator(5))
     for i in range(100):
-        train_generator(150)
+        train_generator(5)
     save_gnd(epoch)
     test_generator(epoch)
