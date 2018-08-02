@@ -32,17 +32,18 @@ def train_discriminator(batchsize):
     key[:batchsize] = .9
 
     ourloss = discriminator.train_on_batch(inarr,key)
-    return "loss: "+str(ourloss)
+    return "discriminator loss: "+str(ourloss)
 
 def train_generator(batchsize):
     discriminator.trainable = False
     noise = np.random.normal(0, 1, size=[batchsize, noiseDim])
-    full_gan.train_on_batch(noise,np.ones(batchsize))
+    ourloss = full_gan.train_on_batch(noise,np.ones(batchsize))
+    return "generator loss: "+str(ourloss)
 
-def test_generator(epoch):
-    noise = np.random.normal(0, 1, size=[5,noiseDim])
+def test_generator(epoch,numimgs):
+    noise = np.random.normal(0, 1, size=[numimgs,noiseDim])
     results = (generator.predict(noise)*255).astype("uint8")
-    for i in range(5):
+    for i in range(numimgs):
         imwrite('generated_images/'+str(epoch)+"epoch"+str(i)+".png",results[i,:])
 
 def save_gnd(epoch):
@@ -53,9 +54,9 @@ def save_gnd(epoch):
 
 for epoch in range(50):
     print("-"*10+"[ E P O C H "+str(epoch)+"]"+"-"*10)
-    #for i in range(100):
-    print(train_discriminator(5))
-    for i in range(1000):
-        train_generator(5)
+    for j in range(100):
+        print(train_discriminator(1))
+        for i in range(10):
+            print(train_generator(1))
     save_gnd(epoch)
-    test_generator(epoch)
+    test_generator(epoch,5)

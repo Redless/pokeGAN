@@ -22,14 +22,14 @@ print(generator.summary())
 print("generator constructed...")
 generator.save("generator")
 print("generator saved.")
-'''
+
 inputLayer = Input(shape=(96,96,4))
 
 discriminator = Conv2D(16,5,padding="same",activation="relu")(inputLayer)
 discriminator = Conv2D(8,5,padding="same",activation="relu")(discriminator)
 discriminator = Flatten()(discriminator)
 discriminator = Dense(64,activation="relu")(discriminator)
-discriminator = Dense(32, activation="relu")(discriminator)
+discriminator = Dense(32,activation="relu")(discriminator)
 discriminator = Dense(1, activation='sigmoid')(discriminator)
 
 discriminator = Model(inputLayer,discriminator)
@@ -38,4 +38,4 @@ discriminator.compile(loss='binary_crossentropy', optimizer="adam")
 print("discriminator constructed...")
 discriminator.save("discriminator")
 print("discriminator saved")
-'''
+
