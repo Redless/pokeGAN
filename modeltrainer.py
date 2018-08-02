@@ -40,9 +40,10 @@ def train_generator(batchsize):
     full_gan.train_on_batch(noise,np.ones(batchsize))
 
 def test_generator(epoch):
-    noise = np.random.normal(0, 1, size=[1,noiseDim])
+    noise = np.random.normal(0, 1, size=[5,noiseDim])
     results = (generator.predict(noise)*255).astype("uint8")
-    imwrite('generated_images/'+str(epoch)+"epoch.png",results[0,:])
+    for i in range(5):
+        imwrite('generated_images/'+str(epoch)+"epoch"+str(i)+".png",results[i,:])
 
 def save_gnd(epoch):
     discriminator.save("trainedmodels/discrim"+str(epoch))
@@ -50,10 +51,11 @@ def save_gnd(epoch):
     discriminator.save("discriminator")
     generator.save("generator")
 
-for epoch in range(5):
+for epoch in range(50):
     print("-"*10+"[ E P O C H "+str(epoch)+"]"+"-"*10)
+    #for i in range(100):
     print(train_discriminator(5))
-    for i in range(100):
+    for i in range(1000):
         train_generator(5)
     save_gnd(epoch)
     test_generator(epoch)
