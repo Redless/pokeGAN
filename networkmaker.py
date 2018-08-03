@@ -33,6 +33,7 @@ discriminator = Dense(1, activation='sigmoid')(discriminator)
 discriminator = Model(inputLayer,discriminator)
 discriminator.compile(loss='binary_crossentropy', optimizer="adam")
 
+print(discriminator.summary())
 print("discriminator constructed...")
 discriminator.save("discriminator")
 print("discriminator saved")
