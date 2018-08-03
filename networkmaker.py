@@ -1,12 +1,12 @@
 from keras.models import Model
-from keras.layers import Input, Dense, Conv2D, Reshape, UpSampling2D, Flatten
+from keras.layers import Input, Dense, Conv2D, Reshape, UpSampling2D, Flatten, Dropout
 
 noiseDim = 640
 
 inputLayer = Input(shape=(noiseDim,))
 
-generator = Dense(128)(inputLayer)
-generator = Reshape((4,4,8))(generator)
+generator = Dense(128,activation="relu")(inputLayer)
+generator = Reshape((4,4,40))(inputLayer)
 generator = Conv2D(50,2,padding="same",activation="relu")(generator)
 generator = UpSampling2D(4)(generator)
 generator = Conv2D(40,3,padding="same",activation="relu")(generator)
@@ -25,10 +25,8 @@ print("generator saved.")
 
 inputLayer = Input(shape=(96,96,4))
 
-discriminator = Conv2D(16,5,padding="same",activation="relu")(inputLayer)
-discriminator = Conv2D(8,5,padding="same",activation="relu")(discriminator)
+discriminator = Conv2D(8,5,padding="same",activation="relu")(inputLayer)
 discriminator = Flatten()(discriminator)
-discriminator = Dense(64,activation="relu")(discriminator)
 discriminator = Dense(32,activation="relu")(discriminator)
 discriminator = Dense(1, activation='sigmoid')(discriminator)
 
