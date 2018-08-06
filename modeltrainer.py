@@ -56,7 +56,7 @@ for epoch in range(50):
     print("-"*10+"[ E P O C H "+str(epoch)+"]"+"-"*10)
     for j in range(100):
         print(train_discriminator(1))
-        for i in range(10):
+        for i in range(5):
             print(train_generator(1))
     save_gnd(epoch)
     test_generator(epoch,5)

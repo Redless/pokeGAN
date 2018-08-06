@@ -1,4 +1,6 @@
 to do:
-figure out how to run this on AWS
-read pix2pix and painting GAN paper to take their insights to use for myself
-run a MNIST sample or something for a "sanity check"
+see if it's randomness or starting_config that produces good results
+read more papers
+cyclic learning rate
+wasserstein loss function
+"compute distance between generated vectors" as an additional loss function that encourages different inputs to lead to different outputs
